@@ -3,6 +3,7 @@ package com.Project.demo.App.Controller;
 import com.Project.demo.App.Exceptions.SpringBlogException;
 import com.Project.demo.App.Service.PostService;
 import com.Project.demo.App.domain.Post;
+import com.Project.demo.App.dto.PostDto;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -14,16 +15,42 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.io.File;
 import java.nio.file.Files;
+import java.util.List;
 
 
+@RestController
+@RequestMapping("/api/posts")
 @RequiredArgsConstructor
-@Controller
-@RequestMapping("/posts")
 public class PostController {
 
     private final PostService postService;
 
-    @ExceptionHandler(SpringBlogException.class)
+    @GetMapping
+    public List<PostDto> listPost(){
+        return postService.findAllPost();
+    }
+
+    @PostMapping
+    public PostDto createPost(@RequestBody PostDto postDto){
+        return postService.save(postDto);
+    }
+
+    @PutMapping
+    public PostDto updatePost(@RequestBody PostDto postDto){
+        return postService.updatePost(postDto);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deletePost(@PathVariable Long id){
+        postService.delete(id);
+    }
+
+    @GetMapping("/{slug}")
+    public PostDto findPostBySlug(@PathVariable String slug){
+        return postService.findPostBySlug(slug);
+    }
+
+    /*@ExceptionHandler(SpringBlogException.class)
     public ModelAndView handleSpringBlogException(SpringBlogException ex){
         ModelAndView model = new ModelAndView("error");
         model.addObject("exception",ex);
@@ -84,6 +111,6 @@ public class PostController {
     public String onePostPage(Model model, @PathVariable Integer id ){
         model.addAttribute("posts",postService.findOnePost(id));
         return "onePost";
-    }
+    }*/
 
 }

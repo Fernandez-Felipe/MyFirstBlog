@@ -1,6 +1,7 @@
 package com.Project.demo.App.domain;
 
 import com.Project.demo.App.Validation.PostTitleAlreadyExits;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
@@ -14,9 +15,13 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 @PostTitleAlreadyExits
+@Entity
+@Table
 public class Post {
 
-    private Integer id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
 
     @NotNull
     @Size(min = 3, max = 50)
@@ -35,6 +40,8 @@ public class Post {
     private LocalDateTime createdon;
     private LocalDateTime publicatedon;
 
-    private List<Comment> coments;
+    @OneToMany(mappedBy = "post" ,  cascade = CascadeType.ALL,
+            orphanRemoval = true)
+    private List<Comment> comments;
 
 }
