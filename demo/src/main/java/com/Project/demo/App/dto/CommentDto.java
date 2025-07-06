@@ -7,7 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
@@ -29,7 +29,7 @@ public class CommentDto {
     @Size(min = 3, max = 2500)
     private String body;
 
-    private LocalTime createdon;
-    private LocalTime publisedon;
+    private LocalDateTime createdon;
+    private LocalDateTime publisedon;
 
 }

@@ -37,6 +37,7 @@ public class Comment {
     private LocalTime publishedon;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="post_id")
     private Post post;
 
 
